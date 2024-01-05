@@ -11,7 +11,7 @@ public class Transaction {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", type = org.hibernate.id.uuid.UuidGenerator.class)
-    private String id;
+    private Long id;
 
     private Date issuedAt;
 

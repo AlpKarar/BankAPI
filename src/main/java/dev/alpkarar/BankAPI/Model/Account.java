@@ -13,7 +13,7 @@ public class Account {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", type = org.hibernate.id.uuid.UuidGenerator.class)
-    private String id;
+    private Long id;
 
     private String iban;
     private Date creationDate;
