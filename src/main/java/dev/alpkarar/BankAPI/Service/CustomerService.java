@@ -18,7 +18,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public void createCustomer(CreateCustomerRequest request) {
+    public Customer createCustomer(CreateCustomerRequest request) {
         Customer newCustomer = Customer.builder()
                 .firstName(request.firstName())
                 .lastName(request.lastName())
@@ -27,7 +27,7 @@ public class CustomerService {
                 .address(request.address())
                 .build();
 
-        customerRepository.save(newCustomer);
+        return customerRepository.save(newCustomer);
     }
 
     public Optional<Customer> getCustomerInfo(Long customerId) {
