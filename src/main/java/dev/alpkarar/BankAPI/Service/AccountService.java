@@ -27,7 +27,7 @@ public class AccountService {
                 .orElseThrow());
 
         Account newAccount = Account.builder()
-                .iban(AccountService.generateIBAN())
+                .iban(generateIBAN())
                 .creationDate(new Date(System.currentTimeMillis()))
                 .balance(0)
                 .customer(customer.get())
@@ -41,7 +41,7 @@ public class AccountService {
         return accountRepository.findById(accountId);
     }
 
-    private static String generateIBAN() {
+    private String generateIBAN() {
         String PREFIX = "TR90222610"; // a random IBAN prefix, which does not include a real bank number
         String accountNum =
                 Integer.toString((int) (Math.pow(10, 15) +
