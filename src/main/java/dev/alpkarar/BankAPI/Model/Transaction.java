@@ -18,16 +18,15 @@ import java.util.Date;
 public class Transaction {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", type = org.hibernate.id.uuid.UuidGenerator.class)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private LocalDate issuedAt;
 
     @ManyToOne
+    @JoinColumn(name = "account_id")
     private Account account;
 
-    @ElementCollection(targetClass = Transaction_Type.class)
     @JoinTable(
             name = "transaction_types",
             joinColumns = @JoinColumn(name = "transaction_id")

@@ -20,8 +20,7 @@ import java.util.Set;
 public class Customer {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", type = org.hibernate.id.uuid.UuidGenerator.class)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String firstName;
@@ -31,6 +30,5 @@ public class Customer {
     private String email;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id")
     private Set<Account> account = new HashSet<>();
 }

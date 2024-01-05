@@ -19,8 +19,7 @@ import java.util.Set;
 public class Account {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", type = org.hibernate.id.uuid.UuidGenerator.class)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String iban;
@@ -28,9 +27,9 @@ public class Account {
     private double balance;
 
     @ManyToOne
+    @JoinColumn(name = "account_id")
     private Customer customer;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    @JoinColumn(name = "transaction_id")
     private Set<Transaction> transactions = new HashSet<>();
 }

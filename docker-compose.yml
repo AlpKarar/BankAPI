@@ -3,10 +3,11 @@ version: '3.8'
 services:
   db:
     image: postgres:14-alpine
+    container_name: BankAPI-PostgresDB
     restart: always
     environment:
-      - POSTGRES_USER= alp
-      - POSTGRES_PASSWORD= alp
-      - POSTGRES_DB= alp-bank-DB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin-alp
+      - POSTGRES_DB=alp-bank-DB
     ports:
       - '5432:5432'
