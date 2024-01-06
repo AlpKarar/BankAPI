@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +33,9 @@ public class CustomerService {
 
     public Optional<Customer> getCustomerInfo(Long customerId) {
         return customerRepository.findById(customerId);
+    }
+
+    public Optional<List<Customer>> getAllCustomerInfo() {
+        return Optional.of(customerRepository.findAll());
     }
 }

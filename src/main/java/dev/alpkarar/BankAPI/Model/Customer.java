@@ -29,6 +29,6 @@ public class Customer {
     private String address;
     private String email;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Account> account = new HashSet<>();
 }

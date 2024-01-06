@@ -6,10 +6,7 @@ import dev.alpkarar.BankAPI.Repository.AccountRepository;
 import dev.alpkarar.BankAPI.Repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class AccountService {
@@ -22,7 +19,7 @@ public class AccountService {
         this.customerRepository = customerRepository;
     }
 
-    public void createAccount(Long customerId) {
+    public Account createAccount(Long customerId) {
         Optional<Customer> customer = Optional.of(customerRepository.findById(customerId)
                 .orElseThrow());
 
@@ -34,11 +31,15 @@ public class AccountService {
                 .transactions(new HashSet<>())
                 .build();
 
-        accountRepository.save(newAccount);
+        return accountRepository.save(newAccount);
     }
 
     public Optional<Account> getAccountInfo(Long accountId) {
-        return accountRepository.findById(accountId);
+        return Optional.of(accountRepository.findById(accountId)).orElseThrow();
+    }
+
+    public Optional<List<Account>> getAllAccountInfo() {
+        return Optional.of(Optional.of(accountRepository.findAll()).orElseThrow());
     }
 
     private String generateIBAN() {
