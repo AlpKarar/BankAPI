@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,11 +26,16 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.createCustomer(request));
     }
 
-    @GetMapping
-    public ResponseEntity<Customer> getCustomerInfo(@RequestParam(name = "id") Long customerId) {
-        Optional<Customer> customer = customerService.getCustomerInfo(customerId);
+    @GetMapping("/{customerId}")
+    public ResponseEntity<Customer> getCustomerInfo(@PathVariable String customerId) {
+        Optional<Customer> customer = customerService.getCustomerInfo(Long.parseLong(customerId));
 
         return customer.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Customer>> getAllCustomers() {
+        return ResponseEntity.ok(customerService.getAllCustomerInfo().get());
     }
 }

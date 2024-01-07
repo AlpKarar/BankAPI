@@ -17,9 +17,9 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping
-    public ResponseEntity<Account> getAccount(@RequestParam(name = "id") Long accountId) {
-        return ResponseEntity.ok(accountService.getAccountInfo(accountId).get());
+    @GetMapping("/{accountId}")
+    public ResponseEntity<Account> getAccount(@PathVariable String accountId) {
+        return ResponseEntity.ok(accountService.getAccountInfo(Long.parseLong(accountId)).get());
     }
 
     @GetMapping
@@ -28,7 +28,7 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Account> createAccount(@RequestParam(name = "customerId") Long customerId) {
-        return ResponseEntity.ok(accountService.createAccount(customerId));
+    public ResponseEntity<Account> createAccount(@RequestParam(name = "customerId") String customerId) {
+        return ResponseEntity.ok(accountService.createAccount(Long.parseLong(customerId)));
     }
 }

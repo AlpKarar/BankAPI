@@ -1,14 +1,15 @@
 package dev.alpkarar.BankAPI.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -23,13 +24,30 @@ public class Account {
     private Long id;
 
     private String iban;
-    private Date creationDate;
+    private LocalDate creationDate;
     private double balance;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "customer_id")
+    @JsonIgnoreProperties("accounts")
     private Customer customer;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     private Set<Transaction> transactions = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Double.compare(balance, account.balance) == 0 &&
+                Objects.equals(id, account.id) &&
+                Objects.equals(iban, account.iban) &&
+                Objects.equals(creationDate, account.creationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, iban, creationDate, balance);
+    }
 }

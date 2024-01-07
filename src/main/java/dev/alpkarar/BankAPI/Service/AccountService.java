@@ -6,6 +6,7 @@ import dev.alpkarar.BankAPI.Repository.AccountRepository;
 import dev.alpkarar.BankAPI.Repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -20,18 +21,22 @@ public class AccountService {
     }
 
     public Account createAccount(Long customerId) {
-        Optional<Customer> customer = Optional.of(customerRepository.findById(customerId)
-                .orElseThrow());
+        Customer customer = Optional.of(customerRepository.findById(customerId)
+                .orElseThrow()).get();
 
         Account newAccount = Account.builder()
                 .iban(generateIBAN())
-                .creationDate(new Date(System.currentTimeMillis()))
+                .creationDate(LocalDate.now())
                 .balance(0)
-                .customer(customer.get())
+                .customer(customer)
                 .transactions(new HashSet<>())
                 .build();
 
-        return accountRepository.save(newAccount);
+        Account savedAccount = accountRepository.save(newAccount);
+        Set<Account> accounts = customer.getAccounts();
+        accounts.add(savedAccount);
+
+        return savedAccount;
     }
 
     public Optional<Account> getAccountInfo(Long accountId) {
