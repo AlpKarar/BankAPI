@@ -1,14 +1,12 @@
 package dev.alpkarar.BankAPI.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -21,10 +19,11 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private LocalDate issuedAt;
+    private LocalDateTime issuedAt;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
+    @JsonIgnoreProperties("")
     private Account account;
 
     @JoinTable(

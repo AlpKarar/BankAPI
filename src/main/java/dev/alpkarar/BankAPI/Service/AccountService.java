@@ -7,6 +7,7 @@ import dev.alpkarar.BankAPI.Repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -26,7 +27,7 @@ public class AccountService {
 
         Account newAccount = Account.builder()
                 .iban(generateIBAN())
-                .creationDate(LocalDate.now())
+                .creationDate(LocalDateTime.now())
                 .balance(0)
                 .customer(customer)
                 .transactions(new HashSet<>())

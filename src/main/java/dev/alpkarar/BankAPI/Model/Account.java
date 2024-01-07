@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,7 +23,7 @@ public class Account {
     private Long id;
 
     private String iban;
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
     private double balance;
 
     @ManyToOne
