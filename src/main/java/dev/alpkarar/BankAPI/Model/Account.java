@@ -32,6 +32,7 @@ public class Account {
     private Customer customer;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("account")
     private Set<Transaction> transactions = new HashSet<>();
 
     @Override

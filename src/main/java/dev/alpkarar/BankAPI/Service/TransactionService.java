@@ -1,6 +1,9 @@
 package dev.alpkarar.BankAPI.Service;
 
+import dev.alpkarar.BankAPI.Dto.Request.DepositRequest;
 import dev.alpkarar.BankAPI.Dto.Request.TransactionRequest;
+import dev.alpkarar.BankAPI.Dto.Request.TransferRequest;
+import dev.alpkarar.BankAPI.Dto.Request.WithdrawRequest;
 import dev.alpkarar.BankAPI.Model.Account;
 import dev.alpkarar.BankAPI.Model.Transaction;
 import dev.alpkarar.BankAPI.Model.Transaction_Type;
@@ -31,33 +34,40 @@ public class TransactionService {
         return Optional.of(transactionRepository.findAll());
     }
 
-    public Transaction createTransaction(TransactionRequest transactionRequest) {
-        Long accountId = Long.parseLong(transactionRequest.getAccountId());
-        String transactionType = transactionRequest.getTransactionType();
-        double amount = transactionRequest.getAmount();
-        Transaction_Type transactionTypeEnum = null;
+    public Transaction proceedTransaction(WithdrawRequest request) {
+        Long accountId = Long.parseLong(request.getAccountId());
+        double amount = request.getAmount();
+        Transaction_Type transactionType = Transaction_Type.WITHDRAW;
 
-        switch (transactionType) {
-            case "WITHDRAW":
-                withdraw(accountId, amount);
-                transactionTypeEnum = Transaction_Type.WITHDRAW;
-                break;
-            case "DEPOSIT":
-                deposit(accountId, amount);
-                transactionTypeEnum = Transaction_Type.DEPOSIT;
-                break;
-            case "TRANSFER":
-                Long receiverAccountId = Long.parseLong(transactionRequest.getAccountId());
-                transactionTypeEnum = Transaction_Type.TRANSFER;
+        withdraw(accountId, amount);
+        return createTransaction(transactionType, accountId);
+    }
 
-                transfer(accountId, amount, receiverAccountId);
-        }
+    public Transaction proceedTransaction(DepositRequest request) {
+        Long accountId = Long.parseLong(request.getAccountId());
+        double amount = request.getAmount();
+        Transaction_Type transactionType = Transaction_Type.DEPOSIT;
 
+        deposit(accountId, amount);
+        return createTransaction(transactionType, accountId);
+    }
+
+    public Transaction proceedTransaction(TransferRequest request) {
+        Long accountId = Long.parseLong(request.getAccountId());
+        Long receiverAccountId = Long.parseLong(request.getReceiverAccountId());
+        double amount = request.getAmount();
+        Transaction_Type transactionType = Transaction_Type.TRANSFER;
+
+        transfer(accountId, amount, receiverAccountId);
+        return createTransaction(transactionType, accountId);
+    }
+
+    public Transaction createTransaction(Transaction_Type transactionType, Long accountId) {
         Transaction newTransaction = Transaction.builder()
-                .transactionType(transactionTypeEnum)
-                .issuedAt(LocalDateTime.now())
-                .account(accountRepository.findById(accountId).get())
-                .build();
+            .transactionType(transactionType)
+            .issuedAt(LocalDateTime.now())
+            .account(accountRepository.findById(accountId).get())
+            .build();
 
         return transactionRepository.save(newTransaction);
     }

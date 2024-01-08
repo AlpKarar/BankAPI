@@ -23,7 +23,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    @JsonIgnoreProperties("")
+    @JsonIgnoreProperties("transactions")
     private Account account;
 
     @JoinTable(

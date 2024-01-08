@@ -1,13 +1,13 @@
 package dev.alpkarar.BankAPI.Controller;
 
+import dev.alpkarar.BankAPI.Dto.Request.DepositRequest;
 import dev.alpkarar.BankAPI.Dto.Request.TransactionRequest;
+import dev.alpkarar.BankAPI.Dto.Request.TransferRequest;
+import dev.alpkarar.BankAPI.Dto.Request.WithdrawRequest;
 import dev.alpkarar.BankAPI.Model.Transaction;
 import dev.alpkarar.BankAPI.Service.TransactionService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,8 +36,18 @@ public class TransactionController {
         return transactions.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Transaction> createTransaction(TransactionRequest transactionRequest) {
-        return ResponseEntity.ok(transactionService.createTransaction(transactionRequest));
+    @PostMapping("/withdraw")
+    public ResponseEntity<Transaction> createTransaction(@RequestBody WithdrawRequest request) {
+        return ResponseEntity.ok(transactionService.proceedTransaction(request));
+    }
+
+    @PostMapping("/deposit")
+    public ResponseEntity<Transaction> createTransaction(@RequestBody DepositRequest request) {
+        return ResponseEntity.ok(transactionService.proceedTransaction(request));
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<Transaction> createTransaction(@RequestBody TransferRequest request) {
+        return ResponseEntity.ok(transactionService.proceedTransaction(request));
     }
 }
