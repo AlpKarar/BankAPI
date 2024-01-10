@@ -19,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Customer {
+public class Customer implements BankUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +30,10 @@ public class Customer {
     private LocalDate birthDate;
     private String address;
     private String email;
+
+    @OneToOne
+    @JoinColumn(name = "user")
+    private User user;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("customer")
