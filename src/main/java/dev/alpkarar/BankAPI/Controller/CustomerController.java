@@ -21,10 +21,12 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    /*
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody CreateCustomerRequest request) {
         return ResponseEntity.ok(customerService.createCustomer(request));
     }
+    */
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Customer> getCustomerInfo(@PathVariable String customerId) {

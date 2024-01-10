@@ -4,13 +4,13 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 @Getter
-public enum Roles implements GrantedAuthority {
-    CLIENT("CLIENT"),
-    ADMIN("ADMIN");
+public enum Role implements GrantedAuthority {
+    CUSTOMER("Customer"),
+    ADMIN("Admin");
 
     private final String value;
 
-    Roles (String value) {
+    Role(String value) {
         this.value = value;
     }
 

@@ -1,7 +1,9 @@
 package dev.alpkarar.BankAPI.Service;
 
 import dev.alpkarar.BankAPI.Dto.Request.CreateCustomerRequest;
+import dev.alpkarar.BankAPI.Model.BankUser;
 import dev.alpkarar.BankAPI.Model.Customer;
+import dev.alpkarar.BankAPI.Model.User;
 import dev.alpkarar.BankAPI.Repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +21,19 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(CreateCustomerRequest request) {
+    public void createCustomer(CreateCustomerRequest request, User newUser) {
         Customer newCustomer = Customer.builder()
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .birthDate(LocalDate.parse(request.birthDate()))
                 .email(request.email())
                 .address(request.address())
+                .user(newUser)
                 .build();
 
-        return customerRepository.save(newCustomer);
+        customerRepository.save(newCustomer);
+
+        // return customerRepository.save(newCustomer);
     }
 
     public Optional<Customer> getCustomerInfo(Long customerId) {
