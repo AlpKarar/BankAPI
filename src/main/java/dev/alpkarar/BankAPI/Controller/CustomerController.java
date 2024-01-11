@@ -21,10 +21,12 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    /*
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody CreateCustomerRequest request) {
         return ResponseEntity.ok(customerService.createCustomer(request));
     }
+    */
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Customer> getCustomerInfo(@PathVariable String customerId) {
@@ -34,8 +36,13 @@ public class CustomerController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAllCustomers() {
         return ResponseEntity.ok(customerService.getAllCustomerInfo().get());
+    }
+
+    @GetMapping
+    public ResponseEntity<Customer> findCustomerByUserId(@RequestParam String userId) {
+        return ResponseEntity.ok(customerService.findCustomerByUserId(userId));
     }
 }
