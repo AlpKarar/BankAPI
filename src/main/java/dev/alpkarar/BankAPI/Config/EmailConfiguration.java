@@ -23,16 +23,16 @@ public class EmailConfiguration {
     @Value("${spring.mail.password}")
     private String password;
 
-    @Value("${spring.mail.transport.protocol}")
+    @Value("${spring.mail.properties.mail.transport.protocol}")
     private String transportProtocol;
 
-    @Value("${spring.mail.smtp.aut}")
+    @Value("${spring.mail.properties.mail.smtp.auth}")
     private String smtpAuth;
 
-    @Value("${spring.mail.smtp.starttls.enable}")
+    @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
     private String smtpStarttlsEnable;
 
-    @Value("${spring.mail.debug}")
+    @Value("${spring.mail.properties.mail.debug}")
     private String debug;
 
     @Bean

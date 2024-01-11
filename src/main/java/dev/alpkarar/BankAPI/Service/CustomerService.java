@@ -1,14 +1,12 @@
 package dev.alpkarar.BankAPI.Service;
 
 import dev.alpkarar.BankAPI.Dto.Request.CreateCustomerRequest;
-import dev.alpkarar.BankAPI.Model.BankUser;
 import dev.alpkarar.BankAPI.Model.Customer;
 import dev.alpkarar.BankAPI.Model.User;
 import dev.alpkarar.BankAPI.Repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +21,12 @@ public class CustomerService {
 
     public void createCustomer(CreateCustomerRequest request, User newUser) {
         Customer newCustomer = Customer.builder()
+                .userId(newUser.getUsername())
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .birthDate(LocalDate.parse(request.birthDate()))
                 .email(request.email())
                 .address(request.address())
-                .user(newUser)
                 .build();
 
         customerRepository.save(newCustomer);
@@ -42,5 +40,9 @@ public class CustomerService {
 
     public Optional<List<Customer>> getAllCustomerInfo() {
         return Optional.of(customerRepository.findAll());
+    }
+
+    public Customer findCustomerByUserId(String userId) {
+        return customerRepository.findCustomerByUserId(userId);
     }
 }

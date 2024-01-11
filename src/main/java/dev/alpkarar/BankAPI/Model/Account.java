@@ -22,7 +22,6 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String clientId;
     private String iban;
     private LocalDateTime creationDate;
     private double balance;

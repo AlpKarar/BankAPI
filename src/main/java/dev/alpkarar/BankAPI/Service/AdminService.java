@@ -23,10 +23,11 @@ public class AdminService {
 
     public void createAdmin(CreateAdminRequest request, User newUser) {
         Admin newAdmin = Admin.builder()
+                .userId(newUser.getUsername())
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .job(request.job())
-                .user(newUser)
+                .email(request.email())
                 .build();
 
         adminRepository.save(newAdmin);

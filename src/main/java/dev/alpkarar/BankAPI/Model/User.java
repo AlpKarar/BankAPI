@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Random;
 import java.util.Set;
 
 @Entity
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,18 +15,16 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @Setter(AccessLevel.PRIVATE)
-    private String username = generateUserId();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private String password = generatePassword();
+    private String username;
+    private String password;
 
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
-
-    @OneToOne
-    private BankUser user;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @JoinTable(
@@ -35,15 +33,4 @@ public class User implements UserDetails {
     )
     @Enumerated(EnumType.STRING)
     private Set<Role> authorities;
-
-    private String generateUserId() {
-        Random rand = new Random();
-        int bound = (int) (Math.pow(10, 16) - Math.pow(10, 15));
-        int id = (int) (Math.pow(10, 15) + rand.nextInt(bound));
-        return Integer.toString(id);
-    };
-
-    private String generatePassword() { // 6 digits password generators
-        return Integer.toString((int) (Math.pow(10, 5) + new Random().nextInt(899999)));
-    }
 }

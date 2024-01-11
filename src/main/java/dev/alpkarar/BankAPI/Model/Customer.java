@@ -15,25 +15,23 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "customers")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Customer implements BankUser {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String userId;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
     private String address;
     private String email;
-
-    @OneToOne
-    @JoinColumn(name = "user")
-    private User user;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("customer")
@@ -44,16 +42,11 @@ public class Customer implements BankUser {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id) &&
-                Objects.equals(firstName, customer.firstName) &&
-                Objects.equals(lastName, customer.lastName) &&
-                Objects.equals(birthDate, customer.birthDate) &&
-                Objects.equals(address, customer.address) &&
-                Objects.equals(email, customer.email);
+        return Objects.equals(email, customer.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthDate, address, email);
+        return Objects.hash(email);
     }
 }

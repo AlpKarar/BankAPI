@@ -36,8 +36,13 @@ public class CustomerController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAllCustomers() {
         return ResponseEntity.ok(customerService.getAllCustomerInfo().get());
+    }
+
+    @GetMapping
+    public ResponseEntity<Customer> findCustomerByUserId(@RequestParam String userId) {
+        return ResponseEntity.ok(customerService.findCustomerByUserId(userId));
     }
 }

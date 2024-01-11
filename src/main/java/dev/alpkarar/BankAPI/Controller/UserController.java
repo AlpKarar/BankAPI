@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping("/customer/authenticate")
-    public User signUpForCustomer(CreateCustomerRequest request) {
+    public User signUpForCustomer(@RequestBody CreateCustomerRequest request) {
         User newUser = userService.createUser(Role.CUSTOMER);
 
         customerService.createCustomer(request, newUser);
