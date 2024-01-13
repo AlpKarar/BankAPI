@@ -4,6 +4,8 @@ import dev.alpkarar.BankAPI.Model.Role;
 import dev.alpkarar.BankAPI.Model.User;
 import dev.alpkarar.BankAPI.Repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,10 +22,12 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UserIdService userIdService;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, UserIdService userIdService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userIdService = userIdService;
     }
 
     @Override
@@ -34,12 +38,20 @@ public class UserService implements UserDetailsService {
 
     public User createUser(Role userRole) {
         Set<Role> roles = new HashSet<>();
-
         roles.add(userRole);
 
+        String userId;
+
+        do {
+            userId = generateUserId();
+
+        } while (userIdService.checkUserId(userId));
+
+        userIdService.addUserId(userId);
+
         User newUser = User.builder()
-                .username(generateUserId())
-                .password(generatePassword())
+                .username(userId)
+                .password(passwordEncoder.encode(generatePassword()))
                 .isAccountNonExpired(true)
                 .isAccountNonLocked(true)
                 .isCredentialsNonExpired(true)

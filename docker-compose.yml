@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  db:
+  postgresql:
     image: postgres:14-alpine
     container_name: BankAPI-PostgresDB
     restart: always
@@ -11,3 +11,18 @@ services:
       - POSTGRES_DB=alp-bank-DB
     ports:
       - '5432:5432'
+  mongodb:
+    image: mongo
+    container_name: UserIdDB-Mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=alpalp
+    ports:
+      - '27017:27017'
+  redis:
+      image: redis:7-alpine
+      container_name: Cache-Redis
+      restart: always
+      ports:
+        - "6379:6379"
